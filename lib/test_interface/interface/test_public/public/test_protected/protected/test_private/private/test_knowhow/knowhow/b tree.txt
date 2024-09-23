@@ -1,0 +1,30 @@
+                i++;
+            }
+            insertNonFull(s-&gt;children[i], k);
+            *root = s;
+        } else {
+            insertNonFull(*root, k);
+        }
+    }
+}
+
+int main() {
+    BTreeNode *root = NULL;
+    int t = 3;
+    int keys[] = {10, 20, 5, 6, 12, 30, 7, 17};
+    for (int i = 0; i &lt; sizeof(keys) / sizeof(keys[0]); i++) {
+        insert(&amp;root, keys[i], t);
+    }
+
+    printf("Traversal of the constructed B-tree is:");
+    traverse(root);
+    printf("\n");
+
+    int k = 6;
+    (search(root, k) != NULL) ? printf("Present\n") : printf("Not Present\n");
+
+    k = 15;
+    (search(root, k) != NULL) ? printf("Present\n") : printf("Not Present\n");
+
+    return 0;
+}</stdlib.h></stdio.h>
