@@ -48,52 +48,36 @@ void destructor(PTREE)
     *pp_tree = NULL;
 }
 
-node_t* new_node(u_int32_t t1, bool leaf1)
-{
-    p("new node %d\n", t1);
-    p("new leaf %d\n", leaf1);
-    p("enter\n");
-    node_t* p_root = (node_t*)malloc(sizeof(node_t));
-    memset(p_root, 0, sizeof(node_t));
-    p("malloc %p\n",p_root);
-    p("%d=%d\n", p_root->t, t1);
-    // Copy the given minimum degree and leaf property
-    p_root->t = t1;
-    p("@1");
-    p_root->leaf = leaf1;
-
-    p("2");
-    // Allocate memory for maximum number of possible keys
-    // and child pointers
-    //p_root->p_keys = malloc(sizeof(void_ref_t) 2*p_root->t-1);
-    //p_root->p_keys = malloc(sizeof(void_ref_t) 2*p_root->t-1);
-    p_root->p_keys = malloc(sizeof(void_ref_t) *2*p_root->t-sizeof(void_ref_t));
-    memset(p_root->p_keys, 0, sizeof(void_ref_t) *2*p_root->t-sizeof(void_ref_t));
-
-    p("3");
-    p_root->pp_child = malloc(sizeof(node_t*) *2*p_root->t);
-    memset(p_root->pp_child, 0, sizeof(node_t*) *2*p_root->t);
-    // Initialize the number of keys as 0
-    p_root->n = 0;
-    return p_root;
+node_t *create_node(u_int32_t t, u_int32_t leaf) {
+    node_t *node = (node_t *)malloc(sizeof(node_t));
+    node->t = t;
+    node->leaf = leaf;
+    node->p_keys = (void_ref_t *)malloc((2 * t - 1) * sizeof(void_ref_t));
+    node->pp_child = (node_t **)malloc(2 * t * sizeof(node_t *));
+    node->n = 0;
+    return node;
 }
 
-
-void print_rec(ROOT, char* end, char* start)
+void print_rec(ROOT, char* end, char* start) 
 {
-    p("");
-    p("%p n: %d\n", p_root, p_root->n);
     char *pr = (end-3<start)?"...":end-3;
-    if(NULL != p_root->p_keys)
-        for(u_int32_t i=0; i<p_root->n;i++)
-            printf("%s %p [%d-%s]\n", pr,  p_root, p_root->p_keys[i].key, (char*)p_root->p_keys[i].p_context);
-    if(NULL != p_root->pp_child)
-        for(u_int32_t i=0; i<p_root->n && NULL != p_root->pp_child[i]; i++)
+    if (p_root != NULL) {
+        int i;
+        for (i = 0; i < p_root->n; i++) {
+            if (!p_root->leaf) {
+                print_rec(p_root->pp_child[i], pr, start);
+            }
+            printf("%s %p[%d(leaf:%b)]%d-%s\n",pr, p_root,  i, p_root->leaf, p_root->p_keys[i].key, (char*)p_root->p_keys[i].p_context);
+        }
+        if (!p_root->leaf) {
             print_rec(p_root->pp_child[i], pr, start);
+        }
+    }
 }
 
 void print(TREE)
 {
+    p("%p %p\n", p_tree, p_tree->data);
     static char prefix[] = "-----------------------------------------------------------------------";
     if(NULL != p_tree && NULL !=p_tree->data)
     {

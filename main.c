@@ -51,6 +51,13 @@ int main(int argc, char** argv)
     }
     void_ref_t arr[] = 
     {
+	{10, "e"}
+	,{20, "e"}
+	,{5, "e"}
+	,{6, "e"}
+	,{12, "e"}
+
+/*
 	{14, "e"}
 	,{6, "e"}
 	,{5, "e"}
@@ -67,7 +74,7 @@ int main(int argc, char** argv)
     ,{72, "98"}
     ,{63, "98"}
     ,{98, "98"}
-    
+*/    
     };
     u_int32_t max = sizeof(arr)/sizeof(void_ref_t);
     //max = 1;
@@ -80,7 +87,7 @@ int main(int argc, char** argv)
 
 
     print(p_tree);
-/*
+
     char *v;
     char *msg[] = {"found %d %s\n", "not found %d\n"};
 
@@ -96,13 +103,15 @@ int main(int argc, char** argv)
 
     void_ref_t arr_del[] = 
     {
-	{2, "e"}
-    ,{7, "98"}
+	{6, "e"}
+
+    ,{20, "98"}
+/*
     ,{8, "98"}
     ,{44, "98"}
     ,{22, "98"}
     ,{98, "98"}
-    
+*/    
     };
     for(int i=0; i < sizeof(arr_del)/sizeof(void_ref_t);i++)    {
 	printf("del %d %s\n", arr_del[i].key, arr_del[i].p_context);
@@ -111,7 +120,7 @@ int main(int argc, char** argv)
 	printf("\n");
     }
     print(p_tree);
-*/
+
     destructor(&p_tree);
     printf("ok\n");
     return 0;
