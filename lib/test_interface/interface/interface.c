@@ -10,7 +10,7 @@
 #define PROOT node_t **pp_root
 #define SafeDelete(x)		{ if (NULL != (x)) { free(x);     (x) = NULL; } }
 
-#define DEBUG
+//#define DEBUG
 
 #ifdef DEBUG
     #define p(...) printf("line %d ", __LINE__); printf(__VA_ARGS__);
@@ -30,18 +30,20 @@ typedef struct _void_ref
 
 typedef struct _node
 {
-	void_ref_t *p_keys;
-    u_int32_t t;      // Minimum degree (defines the range for number of keys)
-    struct _node **pp_child; // An array of child pointers
-    u_int32_t n;     // Current number of keys
+	void_ref_t *key;
+    struct _node **child; // An array of child pointers
+    u_int32_t cnt_key;     // Current number of keys
     bool leaf; // Is true when node is leaf. Otherwise false
+    u_int32_t cnt_child;     // Current number of keys
 
 } node_t;
 
 typedef struct _treeb
 {
     node_t *data;
-    u_int32_t t; //Minimum degree
+    u_int32_t min_keys; //Minimum degree
+    u_int32_t max_keys; 
+    u_int32_t max_children;
 } treeb_t;
 
 
