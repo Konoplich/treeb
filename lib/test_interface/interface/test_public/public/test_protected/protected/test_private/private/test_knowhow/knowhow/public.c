@@ -63,11 +63,15 @@ void print_rec(ROOT, char* end, char* start)
     char *pr = (end-3<start)?"...":end-3;
     if (p_root != NULL) {
         int i;
+        printf("%s ", pr);
+        for (i = 0; i < p_root->n; i++) {
+            printf("%d-%s ",  p_root->p_keys[i].key, (char*)p_root->p_keys[i].p_context);
+        }
+        printf("\n", pr);
         for (i = 0; i < p_root->n; i++) {
             if (!p_root->leaf) {
                 print_rec(p_root->pp_child[i], pr, start);
             }
-            printf("%s %p[%d(leaf:%b)]%d-%s\n",pr, p_root,  i, p_root->leaf, p_root->p_keys[i].key, (char*)p_root->p_keys[i].p_context);
         }
         if (!p_root->leaf) {
             print_rec(p_root->pp_child[i], pr, start);
